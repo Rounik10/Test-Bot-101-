@@ -20,32 +20,34 @@ client.on('message', message => {
     if(command === "greet") {
         message.channel.send("Hello there");
     } else if(command == "roast"){
-        message.channel.send("Chup chutiye, jada khujli ho raha hai gaand me ?");
+        getInsult(message)
     } else if(command == "meme") {
         message.channel.send("On it please wait!");
         getMeme(message);
-    } else if(command == "howgay") {
-        const perc = Math.floor(Math.random(101));
-        message.channel.send(perc+" ");
     } else {
         message.channel.send("Please enter some valid command!");
     }
 
 });
 
-client.login('Nzg2ODM3NjgyNTA4MjY3NTIx.X9MNsg.10mCwwgxPbiPQQ-jayTtijSd8rk');
+client.login('Nzg2ODM3NjgyNTA4MjY3NTIx.X9MNsg.Hn2WaI6p28RlPTVaYPixIhXKLNc');// Token
+
+function getInsult(message) {
+    var json = JSON.parse(GetJson("https://insult.mattbas.org/api/en/insult.json"));
+    const insult = json.insult.toString()
+    console.log(insult)
+    message.channel.send(insult)
+}
 
 function getMeme(message) {  
-    var json = JSON.parse(Get("https://meme-api.herokuapp.com/gimme"));
-    
+    var json = JSON.parse(GetJson("https://meme-api.herokuapp.com/gimme"));
     message.channel.send("There you go: ", {files: [json.url.toString()]});
-
-    function Get(yourUrl) {
-        var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-        var Httpreq = new XMLHttpRequest(); // a new request
-        Httpreq.open("GET",yourUrl,false);
-        Httpreq.send(null);
-        return Httpreq.responseText;          
-    } 
-    
 }
+
+function GetJson(yourUrl) {
+    var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+    var Httpreq = new XMLHttpRequest(); // a new request
+    Httpreq.open("GET",yourUrl,false);
+    Httpreq.send(null);
+    return Httpreq.responseText;          
+} 
